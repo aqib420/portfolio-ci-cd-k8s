@@ -1,0 +1,19 @@
+# TODO: Create a GitHub Actions workflow that:
+# Sets up pip and python
+#  Runs all checks:
+#    - Install dependencies from requirements-dev.txt
+#    - Run tests
+#    - Check code formatting
+#    - Run type checking
+#    - Run linting
+
+# Hint: Use make check-all command, also use action: https://www.github.com/actions/setup-python/tree/v4/
+
+# As you progress, only uncomment lines that are needed depending on where you are in the project.
+
+# name: CI Pipeline
+# on:
+#   # Add triggers here
+# jobs:
+#     pr-checks:
+#         # add pr-checks job here

@@ -1,0 +1,47 @@
+cloudflare:
+  tunnelId: d0bff6c3-0cc3-4d13-a978-3658b5c62952
+  credentials: hidden
+  image: cloudflare/cloudflared:latest
+
+students:
+  - id: "ayesha1afzal"
+  - id: "boldilox"
+  - id: "ahmedali1902"
+  - id: "m4lf0rm3d"
+  - id: "abubakarmirza1"
+  - id: "mrammmar"
+  - id: "aqib420"
+  - id: "ayilaemad"
+  - id: "ahsanrazazardari"
+  - id: "hk07209"
+  - id: "hammadmal"
+  - id: "hussainronaque"
+  - id: "hunain546"
+  - id: "kushal-chandani"
+  - id: "taimooransari"
+  - id: "amansalat"
+  - id: "yumman1"
+  - id: "muneeba-badar"
+  - id: "shahzarkhalique"
+  - id: "mairakhan6"
+  - id: "arqam7159"
+  - id: "mariarizwan"
+  - id: "umair-zubair"
+  - id: "neillakhani"
+  - id: "omer08094"
+  - id: "samia07743"
+  - id: "nisarsyed"
+  - id: "ather-hashmi"
+  - id: "xomaaz"
+
+baseDomain: "quarterstackdev.com"
+
+quotas:
+  dev:
+    memory: "1Gi"
+    pods: "5"    
+    services: "2"
+  prod:
+    memory: "1Gi"
+    pods: "5"    
+    services: "2"

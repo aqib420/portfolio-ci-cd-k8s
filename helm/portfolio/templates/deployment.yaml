@@ -1,0 +1,28 @@
+{{/* 
+TODO: Create deployment of portfolio application
+The manifest can access values from values.yaml file by enclosing them with double curly braces {{ }}
+For example, {{ .Values.replicaCount }}. So instead of hard coding replicas: 1, you will use replicas: {{ .Values.replicaCount }}.
+Helm will automatically replace the value of .Values.replicaCount with the value from values.yaml file.
+
+Edit the following as required but keep the resources section unchanged.
+
+Hint: start with simple deployment Yaml and replace dynamic values later with {{ .Values.X }}
+*/}}
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: portfolio
+  namespace: {{ .Values.githubUsername }}-{{ .Values.environment }}
+  # add more metadata below
+spec:
+  # add other spec fields below
+  template:
+    spec:
+      containers:
+        - name: portfolio
+          # add other containers fields below
+          # DO NOT MODIFY BELOW THIS LINE
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          # DO NOT MODIFY ABOVE THIS LINE

@@ -1,0 +1,1 @@
+The chart demonstrating how the prod and dev clusters are set up.

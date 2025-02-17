@@ -1,0 +1,174 @@
+{{- range .Values.students }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .id }}-dev-web-content
+  namespace: {{ .id }}-dev
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Welcome to {{ .id }}'s Dev Environment</title>
+      <style>
+        body {
+          font-family: Arial, sans-serif;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+          margin: 0;
+          background-color: #f0f0f0;
+        }
+        .container {
+          text-align: center;
+          padding: 20px;
+          background-color: white;
+          border-radius: 8px;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 { color: #2196F3; }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <h1>Welcome to Development Environment</h1>
+        <h2>Student ID: {{ .id }}</h2>
+        <p>This is your development namespace.</p>
+      </div>
+    </body>
+    </html>
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-deployment
+  namespace: {{ .id }}-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web-server
+  template:
+    metadata:
+      labels:
+        app: web-server
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:alpine
+        resources:
+          requests:
+            memory: "64Mi"
+          limits:
+            memory: "128Mi"
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: web-content
+          mountPath: /usr/share/nginx/html
+      volumes:
+      - name: web-content
+        configMap:
+          name: {{ .id }}-dev-web-content
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-svc
+  namespace: {{ .id }}-dev
+spec:
+  selector:
+    app: web-server
+  ports:
+  - port: 80
+    targetPort: 80
+  type: ClusterIP
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .id }}-prod-web-content
+  namespace: {{ .id }}-prod
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Welcome to {{ .id }}'s Production Environment</title>
+      <style>
+        body {
+          font-family: Arial, sans-serif;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+          margin: 0;
+          background-color: #f0f0f0;
+        }
+        .container {
+          text-align: center;
+          padding: 20px;
+          background-color: white;
+          border-radius: 8px;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 { color: #4CAF50; }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <h1>Welcome to Production Environment</h1>
+        <h2>Student ID: {{ .id }}</h2>
+        <p>This is your production namespace.</p>
+      </div>
+    </body>
+    </html>
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-deployment
+  namespace: {{ .id }}-prod
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web-server
+  template:
+    metadata:
+      labels:
+        app: web-server
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:alpine
+        resources:
+          requests:
+            memory: "64Mi"
+          limits:
+            memory: "128Mi"
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: web-content
+          mountPath: /usr/share/nginx/html
+      volumes:
+      - name: web-content
+        configMap:
+          name: {{ .id }}-prod-web-content
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-svc
+  namespace: {{ .id }}-prod
+spec:
+  selector:
+    app: web-server
+  ports:
+  - port: 80
+    targetPort: 80
+  type: ClusterIP
+{{- end }}

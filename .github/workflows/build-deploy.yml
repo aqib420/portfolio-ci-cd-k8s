@@ -1,0 +1,34 @@
+# Workflow to build and deploy docker image
+# use these actions for docker image:
+#      https://github.com/docker/login-action/tree/v2/
+#      https://www.github.com/docker/build-push-action/tree/v4/
+# The docker image tag should be ghcr.io/${{ github.repository }}:${{github.sha}}
+# For docker login, use github.actor and secrets.GITHUB_TOKEN
+# use these actions for kubernetes:
+#      https://github.com/Azure/setup-kubectl
+#      https://github.com/Azure/setup-helm
+
+# If you see "ERROR: denied: installation not allowed to Create organization package", add permissions under runs-on:
+#  runs-on: ubuntu-latest
+#  permissions:
+#      contents: read
+#      packages: write
+
+# As you progress, only uncomment lines that are needed depending on where you are in the project.
+
+# name: Build and Deploy
+# on:
+  # add triggers here
+# jobs:
+#     build-docker-image:
+#         runs-on: ubuntu-latest
+#         permissions:
+#           contents: read
+#           packages: write
+#         steps:
+            # add steps here
+    # deploy-to-dev:
+    #     runs-on: ubuntu-latest
+    #     needs: build-docker-image
+    #     steps:
+    #       # add steps here

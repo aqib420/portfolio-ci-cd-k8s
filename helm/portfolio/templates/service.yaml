@@ -1,0 +1,13 @@
+{{/* 
+Service template for portfolio application
+This service exposes the portfolio deployment to the cluster/external network
+Uses values from values.yaml for configuration
+*/}}
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-svc # DO NOT MODIFY NAME, it must be web-svc
+  namespace: {{ .Values.githubUsername }}-{{ .Values.environment }}
+spec:
+  # add spec below

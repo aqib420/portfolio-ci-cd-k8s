@@ -1,0 +1,23 @@
+replicaCount: 1
+
+githubUsername: haisum
+environment: dev
+
+image:
+  repository: ghcr.io/<repo name>/portfolio
+  tag: latest
+
+service:
+  type: ClusterIP  # Change to LoadBalancer or NodePort as needed
+  port: 80         # Service port
+  targetPort: 5000 # Container port (Flask default)
+
+# DO NOT MODIFY BELOW THIS LINE
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 50m
+    memory: 64Mi
+# DO NOT MODIFY ABOVE THIS LINE

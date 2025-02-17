@@ -1,0 +1,12 @@
+{{- range .Values.students }}
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ .id }}-dev
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ .id }}-prod
+{{- end }}

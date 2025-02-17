@@ -1,0 +1,24 @@
+{{- range .Values.students }}
+---
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: {{ .id }}-dev-quota
+  namespace: {{ .id }}-dev
+spec:
+  hard:
+    memory: {{ $.Values.quotas.dev.memory }}
+    pods: {{ $.Values.quotas.dev.pods }}
+    services: {{ $.Values.quotas.dev.services }}
+---
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: {{ .id }}-prod-quota
+  namespace: {{ .id }}-prod
+spec:
+  hard:
+    memory: {{ $.Values.quotas.prod.memory }}
+    pods: {{ $.Values.quotas.prod.pods }}
+    services: {{ $.Values.quotas.prod.services }}
+{{- end }}

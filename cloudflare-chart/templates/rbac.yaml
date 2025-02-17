@@ -1,0 +1,68 @@
+{{- range .Values.students }}
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ .id }}-dev-sa
+  namespace: {{ .id }}-dev
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ .id }}-dev-role
+  namespace: {{ .id }}-dev
+rules:
+- apiGroups: [""]
+  resources: ["pods", "services", "configmaps", "secrets"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+- apiGroups: ["apps"]
+  resources: ["deployments"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ .id }}-dev-rolebinding
+  namespace: {{ .id }}-dev
+subjects:
+- kind: ServiceAccount
+  name: {{ .id }}-dev-sa
+  namespace: {{ .id }}-dev
+roleRef:
+  kind: Role
+  name: {{ .id }}-dev-role
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ .id }}-prod-sa
+  namespace: {{ .id }}-prod
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ .id }}-prod-role
+  namespace: {{ .id }}-prod
+rules:
+- apiGroups: [""]
+  resources: ["pods", "services", "configmaps", "secrets"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+- apiGroups: ["apps"]
+  resources: ["deployments"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ .id }}-prod-rolebinding
+  namespace: {{ .id }}-prod
+subjects:
+- kind: ServiceAccount
+  name: {{ .id }}-prod-sa
+  namespace: {{ .id }}-prod
+roleRef:
+  kind: Role
+  name: {{ .id }}-prod-role
+  apiGroup: rbac.authorization.k8s.io
+{{- end }}
