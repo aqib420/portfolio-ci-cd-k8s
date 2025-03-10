@@ -14,8 +14,8 @@ format:
 	isort .
 
 format-check:
-	python -m black --check .
-	python -m isort --check-only .
+	black --check .
+	isort --check-only .
 
 check-all: format-check lint typecheck test
 
