@@ -40,7 +40,9 @@ jobs:
 
             
             - name: Run all checks using Makefile
-              run: make check-all
+              run: |
+               cd portfolio
+               make check-all
             
              
              
