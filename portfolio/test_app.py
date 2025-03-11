@@ -25,7 +25,7 @@ def test_about_page(client):
 
 def test_projects_page(client):
     """Test that projects page loads successfully"""
-    rv = client.get("/projectsss")
+    rv = client.get("/projects")
     assert rv.status_code == 200
     assert b"My Projects" in rv.data
 

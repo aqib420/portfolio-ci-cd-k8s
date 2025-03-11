@@ -1,12 +1,9 @@
 from flask import Flask, render_template, send_from_directory
-import os
 
 app = Flask(__name__)
 
 
-
-
-@app.route(f'/') 
+@app.route("/")
 def home():
     return render_template("index.html", title="Portfolio - Home")
 
@@ -21,7 +18,7 @@ def projects():
     return render_template("projects.html", title="Portfolio - Projects")
 
 
-@app.route('/static/<path:path>')
+@app.route("/static/<path:path>")
 def send_static(path):
     return send_from_directory("static", path)
 
