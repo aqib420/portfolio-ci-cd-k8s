@@ -4,5 +4,5 @@ FROM python:3.12-slim
 WORKDIR /app
 COPY portfolio/requirements.txt .
 RUN pip install -r requirements.txt
-COPY portfolio/ ./portfolio/  
+COPY portfolio/ . 
 CMD ["python", "app.py"]

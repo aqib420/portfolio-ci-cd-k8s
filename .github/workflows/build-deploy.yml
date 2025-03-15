@@ -21,7 +21,7 @@ name: Build and Deploy
 on:
   push:
     branches:
-      - feature/docker
+      - main  #workflow runs when changes get pushed to main branch
 
 jobs:
     build-docker-image:
