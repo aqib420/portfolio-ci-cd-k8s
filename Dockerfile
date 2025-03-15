@@ -5,4 +5,4 @@ WORKDIR /app
 COPY portfolio/requirements.txt .
 RUN pip install -r requirements.txt
 COPY portfolio/ . 
-CMD ["python", "app.py"]
+CMD ["python", "portfolio/app.py"]
