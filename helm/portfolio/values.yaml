@@ -5,7 +5,7 @@ environment: dev
 
 image:
   repository: ghcr.io/hu-modern-software-practices/project-4-aqib420
-  tag: latest
+  tag: ""
 
 service:
   type: ClusterIP  # Change to LoadBalancer or NodePort as needed

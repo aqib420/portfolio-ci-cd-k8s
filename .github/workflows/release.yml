@@ -62,6 +62,15 @@ jobs:
               run: |
                 mkdir -p ~/.kube
                 echo "${{ secrets.KUBECONFIG_PROD }}" > ~/.kube/config
+            - name: Debug rendered Helm values
+              run: |
+                helm template portfolio ./helm/portfolio \
+                  --set githubUsername=aqib420 \
+                  --set environment=prod \
+                  --set image.tag=${GITHUB_REF_NAME} \
+                  --set image.repository=ghcr.io/${{ github.repository }} \
+                  --namespace aqib420-prod > debug-output.yaml
+                cat debug-output.yaml
 
             - name: Helm upgrade portfolio on prod cluster
               run: |
@@ -69,7 +78,8 @@ jobs:
                 --set githubUsername=aqib420 \
                 --set environment=prod \
                 --set image.tag=${GITHUB_REF_NAME} \
-                --set image.repository=ghcr.io/${{ github.repository }}
+                --set image.repository=ghcr.io/${{ github.repository }} \
+                --reset-values
 
             - name: Verify production deployment
               run: |
