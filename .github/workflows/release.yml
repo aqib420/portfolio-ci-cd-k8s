@@ -7,19 +7,74 @@
 
 # As you progress, only uncomment lines that are needed depending on where you are in the project.
 
-# name: Deploy to Prod
-# on:
-#   # add triggers here
-# jobs:
-#     retag-image:
-#         runs-on: ubuntu-latest
-#         permissions:
-#           contents: read
-#           packages: write
-#         steps:
-#           # add steps here
-#     deploy-to-prod:
-#         runs-on: ubuntu-latest
-#         needs: retag-image
-#         steps:
-#           # add steps here
+name: Deploy to Prod
+on:
+  push:
+    tags:
+        - 'v*.*.*'
+jobs:
+    retag-image:
+        runs-on: ubuntu-latest
+        permissions:
+          contents: read
+          packages: write
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v3
+
+            - name: Login to Github Container Registry
+              uses: docker/login-action@v2
+              with:
+                registry: ghcr.io
+                username: ${{ github.repository_owner }}
+                password: ${{ secrets.GITHUB_TOKEN }}
+
+            - name: Pull image from dev
+              run: |
+                docker pull ghcr.io/${{ github.repository }}:${{ github.sha }}
+
+            - name: Retag image for production
+              run: |
+                docker tag ghcr.io/${{ github.repository }}:${{ github.sha }} ghcr.io/${{ github.repository }}:${GITHUB_REF_NAME}
+
+            - name: Push production image tag
+              run: |
+                docker push ghcr.io/${{ github.repository }}:${GITHUB_REF_NAME}
+          
+    deploy-to-prod:
+        runs-on: ubuntu-latest
+        needs: retag-image
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v3
+
+            - name: Setup kubectl
+              uses: Azure/setup-kubectl@v1
+              with:
+                version: 'latest'
+
+            - name: Setup helm
+              uses: Azure/setup-helm@v1
+              with:
+                version: 'latest'
+
+            - name: Setup kubeconfig for prod
+              run: |
+                mkdir -p ~/.kube
+                echo "${{ secrets.KUBECONFIG_PROD }}" > ~/.kube/config
+
+            - name: Helm upgrade portfolio on prod cluster
+              run: |
+                helm upgrade --install portfolio ./helm/portfolio \
+                --set githubUsername=aqib420 \
+                --set environment=prod \
+                --set image.tag=${GITHUB_REF_NAME} \
+                --set image.repository=ghcr.io/${{ github.repository }}
+
+            - name: Verify production deployment
+              run: |
+                kubectl get pods -n aqib420-prod
+                kubectl get deployments -n aqib420-prod
+                kubectl get services -n aqib420-prod
+            
+          
