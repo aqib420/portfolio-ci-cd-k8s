@@ -2,7 +2,6 @@
 # use these actions for docker image:
 #      https://github.com/docker/login-action/tree/v2/
 #      https://www.github.com/docker/build-push-action/tree/v4/
-# The docker image tag should be ghcr.io/${{ github.repository }}:${{github.sha}}
 # For docker login, use github.actor and secrets.GITHUB_TOKEN
 # use these actions for kubernetes:
 #      https://github.com/Azure/setup-kubectl
