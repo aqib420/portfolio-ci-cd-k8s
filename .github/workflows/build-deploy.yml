@@ -81,5 +81,7 @@ jobs:
 
           - name: Verify deployment
             run: |
-              kubectl get all -n aqib420-dev
+              kubectl get pods -n aqib420-dev
+              kubectl get deployments -n aqib420-dev
+              kubectl get services -n aqib420-dev
 
