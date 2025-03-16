@@ -39,5 +39,5 @@ spec:
     
           # DO NOT MODIFY BELOW THIS LINE
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+{{- toYaml .Values.resources | nindent 12 }}
           # DO NOT MODIFY ABOVE THIS LINE
