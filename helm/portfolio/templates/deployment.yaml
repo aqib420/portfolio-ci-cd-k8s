@@ -35,7 +35,7 @@ spec:
             - containerPort: {{ .Values.service.targetPort }}
           env:
             - name: environment
-              value: {{ .Values.environment }}
+              value: "{{ .Values.environment }}"
     
           # DO NOT MODIFY BELOW THIS LINE
           resources:
