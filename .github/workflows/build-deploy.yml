@@ -21,7 +21,7 @@ name: Build and Deploy
 on:
   push:
     branches:
-      - main  #workflow runs when changes get pushed to main branch
+      - feature/k8s  #workflow runs when changes get pushed to main branch
 
 jobs:
     build-docker-image:
@@ -53,6 +53,9 @@ jobs:
         runs-on: ubuntu-latest
         needs: build-docker-image
         steps:
+          - name: Checkout repository
+            uses: actions/checkout@v2
+
           - name: install kubectl
             uses: Azure/setup-kubectl@v1
             with:
@@ -62,3 +65,21 @@ jobs:
             uses: Azure/setup-helm@v1
             with:
               version: 'latest'
+
+          - name: Set kubeconfig from Github Secrets
+            run: |
+              mkdir -p ~/.kube
+              echo "${{ secrets.KUBECONFIG_DEV }}" > ~/.kube/config
+
+          - name: Helm upgrade portfolio on dev cluster
+            run: |
+              helm upgrade --install portfolio ./helm/portfolio \
+                --set githubUsername=aqib420 \
+                --set environment=dev \
+                --set image.tag=${{ github.sha }} \
+                --set image.repository=ghcr.io/${{ github.repository }}/portfolio
+
+          - name: Verify deployment
+            run: |
+              kubectl get all -n aqib420-dev
+
