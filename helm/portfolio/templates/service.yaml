@@ -9,5 +9,13 @@ kind: Service
 metadata:
   name: web-svc # DO NOT MODIFY NAME, it must be web-svc
   namespace: {{ .Values.githubUsername }}-{{ .Values.environment }}
+  labels:
+    app: portfolio
 spec:
-  # add spec below
+  selector:
+    app: portfolio
+  ports:
+    - protocol: TCP
+      port: {{.Values.service.port}}
+      targetPort: {{ .Values.service.targetPort }}
+  type: {{.Values.service.type}}

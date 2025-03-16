@@ -1,10 +1,10 @@
 replicaCount: 1
 
-githubUsername: haisum
+githubUsername: aqib420
 environment: dev
 
 image:
-  repository: ghcr.io/<repo name>/portfolio
+  repository: ghcr.io/hu-modern-software-practices/project-4-aqib420/portfolio
   tag: latest
 
 service:
