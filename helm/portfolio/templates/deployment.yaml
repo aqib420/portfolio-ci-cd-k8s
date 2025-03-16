@@ -14,14 +14,29 @@ kind: Deployment
 metadata:
   name: portfolio
   namespace: {{ .Values.githubUsername }}-{{ .Values.environment }}
-  # add more metadata below
+  labels:
+    app: portfolio
 spec:
-  # add other spec fields below
+  replicas: {{.Values.replicaCount}}
+  selector:
+    matchLabels:
+      app: portfolio
   template:
+    metadata:
+      labels:
+        app: portfolio
     spec:
       containers:
         - name: portfolio
           # add other containers fields below
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          imagePullPolicy: {{ .Values.image.pullPolicy | default "IfNotPresent"}}
+          ports:
+            - containerPort: {{ .Values.service.targetPort }}
+          env:
+            - name: environment
+              value: {{ .Values.environment }}
+    
           # DO NOT MODIFY BELOW THIS LINE
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
