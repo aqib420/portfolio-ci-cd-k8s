@@ -54,7 +54,7 @@ jobs:
                 version: 'latest'
 
             - name: Setup helm
-              uses: Azure/setup-helm@v1
+              uses: Azure/setup-helm@v4
               with:
                 version: 'latest'
 
