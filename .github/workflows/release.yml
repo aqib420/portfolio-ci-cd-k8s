@@ -74,11 +74,14 @@ jobs:
             - name: Helm upgrade portfolio on prod cluster
               run: |
                 helm upgrade --install portfolio ./helm/portfolio \
+                --namespace aqib420-prod \
                 --set githubUsername=aqib420 \
                 --set environment=prod \
                 --set image.tag=${GITHUB_REF_NAME} \
                 --set image.repository=ghcr.io/${{ github.repository }} \
+                --create-namespace \
                 --reset-values
+                
 
             - name: Verify production deployment
               run: |
