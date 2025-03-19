@@ -73,10 +73,13 @@ jobs:
           - name: Helm upgrade portfolio on dev cluster
             run: |
               helm upgrade --install portfolio ./helm/portfolio \
+                --namespace aqib420-dev \
                 --set githubUsername=aqib420 \
                 --set environment=dev \
                 --set image.tag=${{ github.sha }} \
-                --set image.repository=ghcr.io/${{ github.repository }}
+                --set image.repository=ghcr.io/${{ github.repository }} \
+                --create-namespace
+            
 
           - name: Verify deployment
             run: |
